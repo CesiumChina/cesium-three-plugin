@@ -2,7 +2,7 @@
   "name": "lib-cli",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "git@github.com:cavencj/lib-cli.git",
+  "repository": "https://github.com/CesiumChina/cesium-three-plugin.git",
   "author": "cavencj <cavencj@gmail.com>",
   "license": "MIT",
   "type": "module",
@@ -11,6 +11,8 @@
     "build": "rimraf dist && gulp build",
     "build:node": "rimraf dist && gulp buildNode",
     "build:iife": "rimraf dist && gulp buildIIFE",
+    "build:release": "rimraf dist && gulp buildRelease",
+    "prepublishOnly": "yarn run build:release",
     "lint": "eslint --fix src"
   },
   "devDependencies": {
@@ -21,6 +23,7 @@
     "@babel/preset-env": "^7.21.5",
     "chalk": "^5.2.0",
     "esbuild": "^0.20.2",
+    "esbuild-plugin-globals": "^0.2.0",
     "esbuild-plugin-inline-image": "^0.0.9",
     "esbuild-sass-plugin": "^3.1.0",
     "eslint": "^8.40.0",
@@ -38,5 +41,8 @@
     "rimraf": "^5.0.0",
     "sass": "^1.62.1",
     "shelljs": "^0.8.5"
+  },
+  "dependencies": {
+    "three": "^0.173.0"
   }
 }

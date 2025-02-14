@@ -5,11 +5,63 @@
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-  <script src="libs/lib.min.js"></script>
-  <link rel="stylesheet" href="libs/lib.min.css">
+  <title></title>
+
+  <link
+    href="https://cesium.com/downloads/cesiumjs/releases/1.125/Build/Cesium/Widgets/widgets.css"
+    rel="stylesheet"
+  />
+
+  <style>
+      * {
+          padding: 0;
+          margin: 0;
+      }
+      html,
+      body {
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+      }
+
+      .viewer-container {
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+      }
+  </style>
 </head>
 <body>
-  example
+<div id="viewer-container" class="viewer-container"></div>
+
+<script type="importmap">
+  {
+    "imports": {
+      "cesium": "https://cesium.com/downloads/cesiumjs/releases/1.125/Build/Cesium/index.js",
+      "three": "https://cdn.jsdelivr.net/npm/three@0.173.0/build/three.module.min.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.173.0/examples/jsm/",
+      "ctp": "./libs/index.js"
+    }
+  }
+</script>
+
+<script type="module">
+  import * as Cesium from 'cesium';
+  import { ViewerScene } from 'ctp'
+  import * as THREE from 'three';
+  let viewer = new Cesium.CesiumWidget('viewer-container', {
+    creditContainer: document.createElement('div'),
+  });
+  const viewerScene = new ViewerScene(viewer)
+  let position = Cesium.Cartesian3.fromDegrees(120, 31, 100)
+  let modelMatrix =  Cesium.Transforms.headingPitchRollToFixedFrame(
+    position,
+    new Cesium.HeadingPitchRoll(0,0,0))
+  const geometry = new THREE.BoxGeometry(100, 100, 100)
+  const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
+  const cube = new THREE.Mesh(geometry, material)
+  cube.applyMatrix4(new THREE.Matrix4().fromArray(Cesium.Matrix4.toArray(modelMatrix)))
+  viewerScene.world.add(cube)
+</script>
 </body>
 </html>
