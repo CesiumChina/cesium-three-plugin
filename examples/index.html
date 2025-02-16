@@ -49,6 +49,8 @@
   import * as Cesium from 'cesium';
   import { ViewerScene } from 'ctp'
   import * as THREE from 'three';
+  import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+  import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
   let viewer = new Cesium.CesiumWidget('viewer-container', {
     creditContainer: document.createElement('div'),
   });
@@ -56,12 +58,38 @@
   let position = Cesium.Cartesian3.fromDegrees(120, 31, 100)
   let modelMatrix =  Cesium.Transforms.headingPitchRollToFixedFrame(
     position,
-    new Cesium.HeadingPitchRoll(0,0,0))
-  const geometry = new THREE.BoxGeometry(100, 100, 100)
-  const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
-  const cube = new THREE.Mesh(geometry, material)
-  cube.applyMatrix4(new THREE.Matrix4().fromArray(Cesium.Matrix4.toArray(modelMatrix)))
-  viewerScene.world.add(cube)
+    new Cesium.HeadingPitchRoll(0,0,Math.PI/2))
+
+  const loader = new GLTFLoader().setPath( 'https://threejs.org/examples/models/gltf/DamagedHelmet/glTF/' );
+
+
+  viewerScene.renderer.toneMappingExposure = 1;
+  viewerScene.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+
+  new RGBELoader()
+    .setPath( 'https://threejs.org/examples/textures/equirectangular/' )
+    .load( 'royal_esplanade_1k.hdr', function ( texture ) {
+      texture.mapping = THREE.EquirectangularReflectionMapping;
+      viewerScene.scene.environment = texture;
+
+      loader.load( 'DamagedHelmet.gltf',  function ( gltf ) {
+        const model = gltf.scene;
+        model.applyMatrix4(new THREE.Matrix4().fromArray(Cesium.Matrix4.toArray(modelMatrix)))
+        model.scale.set(100,100,100)
+        viewerScene.world.add(model)
+      } );
+    })
+
+
+
+  viewer.camera.flyTo({
+    destination : Cesium.Cartesian3.fromDegrees(120, 31, 1000.0),
+    orientation : {
+      heading : 0,
+      pitch : Cesium.Math.toRadians(-90.0),
+      roll : 0.0
+    }
+  });
 </script>
 </body>
 </html>

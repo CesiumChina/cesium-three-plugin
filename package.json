@@ -1,11 +1,17 @@
 {
   "name": "lib-cli",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "/dist/index.js",
   "repository": "https://github.com/CesiumChina/cesium-three-plugin.git",
+  "homepage": "https://github.com/cesiumchina",
   "author": "cavencj <cavencj@gmail.com>",
-  "license": "MIT",
+  "license": "Apache 2.0",
   "type": "module",
+  "keywords": [
+    "3D",
+    "cesium",
+    "three"
+  ],
   "scripts": {
     "dev": "rimraf dist && gulp dev",
     "build": "rimraf dist && gulp build",
@@ -42,7 +48,11 @@
     "sass": "^1.62.1",
     "shelljs": "^0.8.5"
   },
-  "dependencies": {
-    "three": "^0.173.0"
-  }
+  "peerDependencies": {
+    "three": "^0.160.0"
+  },
+  "files": [
+    "dist",
+    "src"
+  ]
 }
