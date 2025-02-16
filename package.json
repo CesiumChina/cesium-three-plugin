@@ -1,5 +1,5 @@
 {
-  "name": "lib-cli",
+  "name": "@cesium-china/cesium-three-plugin",
   "version": "1.0.0",
   "main": "/dist/index.js",
   "repository": "https://github.com/CesiumChina/cesium-three-plugin.git",
